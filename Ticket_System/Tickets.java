@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+package Ticket_System;
 
 public abstract class Tickets {
     protected final String name;
@@ -15,7 +15,7 @@ public abstract class Tickets {
         this.price = price;
         this.play = play;
         this.ticketNumber = ++ticketNumberCounter;
-        this.play.allTickets.add(this);
+        this.play.ticketList.addFirst(this);
     }
 
     public float getPrice() { return price; }

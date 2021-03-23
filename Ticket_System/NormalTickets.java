@@ -1,3 +1,5 @@
+package Ticket_System;
+
 public class NormalTickets extends Tickets{
 
     public NormalTickets(String name, float price, Plays play) {
