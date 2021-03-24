@@ -2,8 +2,9 @@ package Ticket_System;
 
 public class NormalTickets extends Tickets{
 
-    public NormalTickets(String name, float price, Plays play) {
-        super(name, price, play);
-        this.count = 1;
+    public NormalTickets(String name, Plays play) {
+        super(name, play);
+        this.ticketPrice = this.play.getPlayPrice();
+        this.seatsReserved = 1;
     }
 }
