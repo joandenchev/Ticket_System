@@ -6,8 +6,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
-//TO-DO: ADD DATABASE SUPPORT!
-
 public class Plays {
     private       int     playNumber;
     private       String  playName;
@@ -22,6 +20,7 @@ public class Plays {
         this.playName   = playName;
         this.playPrice  = price;
         this.dateTime   = LocalDateTime.parse(dateTime, formatter);
+        Run.allPlays.addFirst(this);
     }
 
     public String getPlayName() { return playName; }
