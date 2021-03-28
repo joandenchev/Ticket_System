@@ -1,17 +1,17 @@
 package Ticket_System;
 
-public abstract class Tickets {
+public abstract class Ticket {
 
     protected final int    ticketNumber;
     protected final String customerName;
-    protected final Plays  play;
+    protected final Play   play;
     protected       float  ticketPrice;
     protected       short  seatsReserved;
 
 
     private static int ticketNumberCounter = 0;
 
-    public Tickets(String customerName, Plays play) {
+    public Ticket(String customerName, Play play) {
         this.ticketNumber = ++ticketNumberCounter;
         this.customerName = customerName;
         this.play = play;

@@ -1,8 +1,8 @@
 package Ticket_System;
 
-public class NormalTickets extends Tickets{
+public class NormalTicket extends Ticket {
 
-    public NormalTickets(String name, Plays play) {
+    public NormalTicket(String name, Play play) {
         super(name, play);
         this.ticketPrice = this.play.getPlayPrice();
         this.seatsReserved = 1;

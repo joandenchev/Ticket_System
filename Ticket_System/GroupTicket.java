@@ -1,8 +1,8 @@
 package Ticket_System;
 
-public class GroupTicket extends Tickets{
+public class GroupTicket extends Ticket {
 
-    public GroupTicket(String name, Plays play, short count) {
+    public GroupTicket(String name, Play play, short count) {
         super(name, play);
         this.seatsReserved = count;
         if (count >= 20) {
