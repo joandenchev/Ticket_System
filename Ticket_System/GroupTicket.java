@@ -41,7 +41,8 @@ public class GroupTicket extends Ticket {
                         %s%s%s
                         Клиент: %s%sВажи за общо %d души
                         номер на билета: %d%sцена на билета: %.2fлв
-                        """, play.getPlayTitle().toUpperCase(), f1String, play.getDateTime().format(Others.formatter),
+                        """, play.getPlayTitle().toUpperCase(),
+                f1String, play.getDateTime().format(Others.formatter),
                 customerName, f2String, peopleCount,
                 ticketNumber, f3String, ticketPrice);
     }

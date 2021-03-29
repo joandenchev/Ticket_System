@@ -61,7 +61,8 @@ public class Play {
         return String.format("""
                 %s%s%s
                 номер на представлението: %d%s %.2fлв
-                """, playTitle.toUpperCase(), f1String, dateTime.format(Others.formatter),
+                """, playTitle.toUpperCase(), f1String,
+                dateTime.format(Others.formatter),
                 playNumber, f3String, playPrice);
     }
 }
