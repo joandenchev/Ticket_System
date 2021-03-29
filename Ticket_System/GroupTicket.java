@@ -10,6 +10,7 @@ public class GroupTicket extends Ticket {
         } else {
             ticketPrice = (play.getPlayPrice()) * this.peopleCount;
         }
+        type = TicketType.GROUP;
     }
 
     @Override

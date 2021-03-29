@@ -6,5 +6,6 @@ public class DiscountedTicket extends Ticket {
         super(name, playNumber);
         ticketPrice = ((float) (0.5 * play.getPlayPrice()));
         peopleCount = 1;
+        type = TicketType.DISCOUNTED;
     }
 }

@@ -6,5 +6,6 @@ public class NormalTicket extends Ticket {
         super(name, playNumber);
         ticketPrice   = play.getPlayPrice();
         peopleCount = 1;
+        type = TicketType.NORMAL;
     }
 }

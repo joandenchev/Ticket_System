@@ -7,6 +7,7 @@ public abstract class Ticket {
     protected final Play   play;
     protected       float  ticketPrice;
     protected       short  peopleCount;
+    protected   TicketType type;
 
     private   static int ticketNumberCounter = 0;
 

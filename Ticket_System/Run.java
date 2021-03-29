@@ -12,6 +12,7 @@ public class Run {
     private static final String dec2 = "======================================================================";
     private static final String dec3 = "==================================================";
     private static final String dec4 = "----------------------------------------------------------------------";
+    private static final String dec5 = "----------------------------------";
     static byte menuData;
     static Scanner input = new Scanner(System.in);
 
@@ -100,6 +101,7 @@ public class Run {
     }
 
     private static void addPlay(){
+        Scanner scanner = new Scanner(System.in);
         Pattern pPrice = Pattern.compile("^(\\d+\\.\\d{2})|(\\d+)$"); //TO-DO: IMPROVE PATTERNS
         Pattern dateAndTime = Pattern.compile("^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$");
 
@@ -112,14 +114,14 @@ public class Run {
                 """, dec2);
 
         System.out.println("Наименование: ");
-        String playTitle = input.nextLine();
+        String playTitle = scanner.nextLine();
         if (playTitle.equals("0")) {
             System.out.printf("%s%n", dec2);
             toMain();
         }
 
         System.out.println("Цена на обикновен билет: ");
-        float playPrice = Float.parseFloat(input.next());
+        float playPrice = Float.parseFloat(scanner.next());
         if (playPrice == 0) {
             System.out.printf("%s%n", dec2);
             toMain();
@@ -297,8 +299,17 @@ public class Run {
         for (Play i : Play.allPlays) {
             if (!i.ticketList.isEmpty())
             showTicketList(i);
-            System.out.println();
         }
+        System.out.printf("""
+                %nОпции:
+                0. Назад
+                1. Главно меню
+                2. Преглед на конкретен билет
+                VVV
+                """);
+        menuData = (byte) (input.nextByte()+80);
+        System.out.printf("%s%n", dec2);
+        menus();
     }
 
     private static void showTicketListOptions(Play play){
@@ -323,8 +334,12 @@ public class Run {
             System.out.println(i.toListedString());
         }
         System.out.println(dec4);
-        System.out.printf("ОБЩА СТОЙНОСТ НА БИЛЕТИТЕ: %.2f", play.getProfit());
-        System.out.printf("БРОЙ ЗРИТЕЛИ: %d", play.getProfit());
+        System.out.printf("ОБЩА СТОЙНОСТ НА БИЛЕТИТЕ: %.2f%n", play.getProfit());
+        System.out.printf("             БРОЙ ЗРИТЕЛИ: %d%n", play.getViewersCount());
+        System.out.printf("           С ГРУПОВ БИЛЕТ: %d%n", play.getGroupViewers());
+        System.out.printf("        С ОБИКНОВЕН БИЛЕТ: %d%n", play.getNormalViewers());
+        System.out.printf("    С ПРОМОЦИОНАЛЕН БИЛЕТ: %d%n", play.getDiscountedViewers());
+        System.out.println(dec5 + "\n");
     }
 
     private static void showTicket(){
@@ -355,10 +370,19 @@ public class Run {
                 System.out.println(t.toListedString());
             }
             System.out.println(dec4);
+            System.out.println(dec4);
+            System.out.printf("ОБЩА СТОЙНОСТ НА БИЛЕТИТЕ: %.2f%n", i.getProfit());
+            System.out.printf("             БРОЙ ЗРИТЕЛИ: %d%n", i.getViewersCount());
+            System.out.printf("           С ГРУПОВ БИЛЕТ: %d%n", i.getGroupViewers());
+            System.out.printf("        С ОБИКНОВЕН БИЛЕТ: %d%n", i.getNormalViewers());
+            System.out.printf("    С ПРОМОЦИОНАЛЕН БИЛЕТ: %d%n", i.getDiscountedViewers());
+            System.out.println(dec5 + "\n");
         }
 
         System.out.printf("""
-                ОБЩА СТОЙНОСТ НА ВСИЧКИ БИЛЕТИ
-                """);
+                ОБЩА СТОЙНОСТ НА АБСОЛЮТНО ВСИЧКИ БИЛЕТИ: %.2f
+                                            ОБЩО КЛИЕНТИ: %d
+                """,Others.UltimateProfit(), Others.UltimateViewerCount());
+        toMain();
     }
 }

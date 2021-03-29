@@ -43,4 +43,24 @@ public abstract class Others {
         }
         return null;
     }
+
+    public static float UltimateProfit(){
+        float ultimateProfit = 0;
+        for (Play p : Play.allPlays) {
+            for (Ticket t : p.ticketList) {
+                ultimateProfit = ultimateProfit + t.getTicketPrice();
+            }
+        }
+        return ultimateProfit;
+    }
+
+    public static int UltimateViewerCount(){
+        int ultimateViewerCount = 0;
+        for (Play p : Play.allPlays) {
+            for (Ticket t : p.ticketList) {
+                ultimateViewerCount = ultimateViewerCount + t.getPeopleCount();
+            }
+        }
+        return ultimateViewerCount;
+    }
 }

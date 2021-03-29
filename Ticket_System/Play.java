@@ -50,7 +50,26 @@ public class Play {
     public int getNormalViewers(){
         int viewers = 0;
         for (Ticket p : this.ticketList) {
+            if (p.type == TicketType.NORMAL)
             viewers = viewers + (p.peopleCount);
+        }
+        return viewers;
+    }
+
+    public int getDiscountedViewers(){
+        int viewers = 0;
+        for (Ticket p : this.ticketList) {
+            if (p.type == TicketType.DISCOUNTED)
+                viewers = viewers + (p.peopleCount);
+        }
+        return viewers;
+    }
+
+    public int getGroupViewers(){
+        int viewers = 0;
+        for (Ticket p : this.ticketList) {
+            if (p.type == TicketType.GROUP)
+                viewers = viewers + (p.peopleCount);
         }
         return viewers;
     }
