@@ -11,10 +11,12 @@ public class Run {
     private static final String dec1 = "--------------------------------------------------";
     private static final String dec2 = "======================================================================";
     static byte menuData;
+    static Scanner input = new Scanner(System.in);
 
     public static void main  (String[] args) {
 
         demoPlays();
+
         System.out.println("Ticket Console Application 1.0");
         toMain();
 
@@ -51,18 +53,19 @@ public class Run {
     private static void menus(){
 
         switch (menuData) {
-            case 0, 20, 30, 40, 90 -> mainMenu();
+            case 0, 20, 30, 40, 90, 81 -> mainMenu();
             case 1  -> addPlay();
             case 2, 31 -> sellTicket();
             case 3, 25 -> viewPlays();
-            case 4  -> showInfo();
+            case 4, 80  -> showInfo();
             case 5  -> System.exit(0);
             case 9  -> addRandoms();
             case 21 -> sellNewTicket(TicketType.NORMAL);
             case 22 -> sellNewTicket(TicketType.DISCOUNTED);
             case 23 -> sellNewTicket(TicketType.GROUP);
-            case 41 -> showTicketList();
-            case 42 -> showTicketListForAll();
+            case 41, 82 -> showTicket();
+            case 42 -> showTicketListMenu();
+            case 43 -> showTicketListForAll();
             case 91 -> addRandoms1();
             case 92 -> addRandoms2();
             default -> {
@@ -78,8 +81,6 @@ public class Run {
     }
 
     private static void mainMenu(){
-        Scanner input = new Scanner(System.in);
-
         System.out.printf("""
                 %s
                 ГЛАВНО МЕНЮ!%n
@@ -98,7 +99,6 @@ public class Run {
     }
 
     private static void addPlay(){
-        Scanner input = new Scanner(System.in);
         Pattern pPrice = Pattern.compile("^(\\d+\\.\\d{2})|(\\d+)$"); //TO-DO: IMPROVE PATTERNS
         Pattern dateAndTime = Pattern.compile("^\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}$");
 
@@ -156,8 +156,6 @@ public class Run {
     }
 
     private static void sellTicket(){
-        Scanner input = new Scanner(System.in);
-
         System.out.printf("""
                 %s
                 Продажба на билет!%n
@@ -175,6 +173,7 @@ public class Run {
     }
 
     private static void sellNewTicket(TicketType type){
+        Scanner scanner = new Scanner(System.in);
         String ticketString;
         switch (type){
             case NORMAL -> ticketString = "обикновен билет";
@@ -182,8 +181,6 @@ public class Run {
             case GROUP -> ticketString = "групов билет";
             default -> ticketString = "билет";
         }
-
-        Scanner input = new Scanner(System.in);
 
         System.out.printf("""
                 %s
@@ -194,7 +191,7 @@ public class Run {
                 """, dec2, ticketString);
 
         System.out.println("Име на клиента:");
-        String customerName = input.nextLine();
+        String customerName = scanner.nextLine();
         if (customerName.equals("0")) toMain();
 
         System.out.println("Номер на представлението:");
@@ -239,14 +236,12 @@ public class Run {
         System.out.println("1. Продай билет");
         System.out.println("\nVVV");
 
-        Scanner input = new Scanner(System.in);
         menuData = (byte) (input.nextByte() + 30);
         System.out.printf("%s%n", dec2);
         menus();
     }
 
     private static void addRandoms(){
-        Scanner input = new Scanner(System.in);
 
         System.out.printf("""
                 %s
@@ -254,7 +249,7 @@ public class Run {
                 Опции:
                 0. Назад
                 1. Генерирай за определено представление
-                2. Генерирай за случайни представления
+                2. Генерирай за случайни представления%n
                 VVV
                 """, dec2);
 
@@ -264,9 +259,6 @@ public class Run {
     }
 
     private static void addRandoms1(){
-
-        Scanner input = new Scanner(System.in);
-
         System.out.printf("""
                 %s
                 Генерация на билети!%n
@@ -293,17 +285,16 @@ public class Run {
     }
 
     private static void showInfo(){
-        Scanner input = new Scanner(System.in);
-
         System.out.printf("""
                 %s
                 Извеждане на информация!%n
                 Опции:
-                0. Отказ (Връщане към началното меню)
-                1. Извеждане на всички продадени билети за дадена постановка
-                2. Извеждане на абсолютно всички продадени билети
-                3. Извеждане на подробна информация за дадено представление
-                4. ИЗВЕЖДАНЕ НА АБСОЛЮТНО ВСИЧКО БАЦЕ%n
+                0. Назад
+                1. Преглед на конкретен билет
+                2. Извеждане на всички продадени билети за дадена постановка
+                3. Извеждане на абсолютно всички продадени билети
+                4. Извеждане на подробна информация за дадено представление
+                5. ИЗВЕЖДАНЕ НА АБСОЛЮТНО ВСИЧКО БАЦЕ
                 VVV
                 """, dec2);
         menuData = (byte) (input.nextByte()+40);
@@ -311,30 +302,61 @@ public class Run {
         menus();
     }
 
-    private static void showTicketList(){
-        Scanner input = new Scanner(System.in);
-
+    private static void showTicketListMenu(){
         System.out.printf("""
                 %s
-                Извеждане на информация!%n
+                Извеждане на информация за билети!%n
                 За отказ и връщане до главното меню въведете 0.
                 Въведете номера на желаното представление!
                 VVV
                 """, dec2);
         int playNumber = input.nextInt();
         if (playNumber == 0) toMain();
-        showTicketList1(Objects.requireNonNull(Others.playFinder(playNumber)));
+        showTicketList(Objects.requireNonNull(Others.playFinder(playNumber)));
     }
 
     private static void showTicketListForAll(){
         for (Play i : Play.allPlays) {
+            if (!i.ticketList.isEmpty())
             showTicketList1(i);
+            System.out.println();
         }
     }
 
-    private static void showTicketList1(Play play){
+    private static void showTicketList(Play play){
+        showTicketList1(play);
+        System.out.print("""
+                %nОпции:
+                0. Назад
+                1. Главно меню
+                2. Преглед на конкретен билет
+                VVV
+                """);
+        menuData = (byte) (input.nextByte()+80);
+        System.out.printf("%s%n", dec2);
+        menus();
+    }
 
-        System.out.println("\n");
+    private static void showTicket(){
+        System.out.printf("""
+                %s
+                Извеждане на информация за билет!%n
+                За отказ и връщане до главното меню въведете 0.
+                Въведете номера на желаният билет!
+                VVV
+                """, dec2);
+        int ticketNumber = input.nextInt();
+        if (ticketNumber == 0) toMain();
+        System.out.println(dec1);
+        System.out.print(Others.ticketFinder(ticketNumber));
+        System.out.println(dec1);
+        System.out.printf("%s%n", dec2);
+        toMain();
+    }
+
+    private static void showTicketList1(Play play){
+        System.out.printf("БИЛЕТИ ЗА %s:%n%n", play.getPlayTitle().toUpperCase());
+
         for (Ticket i : play.ticketList) {
             System.out.println(i.toListedString());
         }

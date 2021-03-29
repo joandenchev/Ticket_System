@@ -75,9 +75,9 @@ public abstract class Ticket {
         StringBuilder f4String = new StringBuilder();
         f4String.append(String.valueOf(space).repeat(f4));
 
-        return String.format("TN: %d%scustomer: %s%spaid: %.2f%sseats:%s %d",
+        return String.format("TN: %d%scustomer: %s%spaid:%s%.2f seats:%s %d",
                 ticketNumber, f1String, customerName, f2String,
-                ticketPrice, f3String, f4String, peopleCount);
+                f3String, ticketPrice, f4String, peopleCount);
     }
 
 }

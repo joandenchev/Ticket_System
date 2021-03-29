@@ -32,4 +32,15 @@ public abstract class Others {
         }
 
     }
+
+    public static Ticket ticketFinder(int ticketNumber){
+        for (Play i : Play.allPlays) {
+
+            for (Ticket t : i.ticketList) {
+                if (t.ticketNumber == ticketNumber) return t;
+            }
+
+        }
+        return null;
+    }
 }
