@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public class Play {
-    private       int     playNumber;
-    private       String  playTitle;
+    private final int     playNumber;
+    private final String  playTitle;
     private final float   playPrice;
     private final LocalDateTime dateTime;
 
@@ -24,21 +24,35 @@ public class Play {
     }
 
     public String getPlayTitle() { return playTitle; }
-    public void setPlayTitle(String playTitle) { this.playTitle = playTitle; }
 
     public int getPlayNumber() { return playNumber; }
-    public void setPlayNumber(short playNumber) { this.playNumber = playNumber; }
 
     public float getPlayPrice() { return playPrice; }
     public LocalDateTime getDateTime() { return dateTime; }
 
 
-    public float getProfit(@NotNull Play play){
+    public float getProfit(){
         float profit = 0;
-        for (Ticket p : play.ticketList) {
-            profit = profit + (p.getTicketPrice()*p.getPeopleCount());
+        for (Ticket p : this.ticketList) {
+            profit = profit + (p.getTicketPrice());
         }
         return profit;
+    }
+
+    public int getViewersCount(){
+        int viewers = 0;
+        for (Ticket p : this.ticketList) {
+            viewers = viewers + (p.peopleCount);
+        }
+        return viewers;
+    }
+
+    public int getNormalViewers(){
+        int viewers = 0;
+        for (Ticket p : this.ticketList) {
+            viewers = viewers + (p.peopleCount);
+        }
+        return viewers;
     }
 
     @Override
