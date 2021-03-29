@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Run {
     private static final String dec1 = "--------------------------------------------------";
     private static final String dec2 = "======================================================================";
-    static byte   menuData;
+    static byte menuData; //ПРОМЕНЛИВА, ДАВАЩА ФУНКЦИОНАЛНОСТ НА МЕТОДА menus
 
     public static void main  (String[] args) {
 
@@ -19,6 +19,7 @@ public class Run {
 
     }
 
+    //ДОБАВЯ ПРЕДВАРИТЕЛНО ПОТГОТВЕНИ ПРЕДСТАВЛЕНИЯ В allPlays
     private static void demoPlays(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
@@ -42,18 +43,19 @@ public class Run {
         new Play("Един слон с голям балон",    13.30f, dateTime5);
         new Play("Краставицата и звяра",       14    , dateTime2);
         new Play("Моркова и рукулата",         17    , dateTime3);
-        new Play("Аватар: Легендата за Краси", 99.90f, dateTime4);
         new Play("Краси и 15те джуджета",      120   , dateTime6);
+        new Play("Аватар: Легендата за Краси", 99.90f, dateTime4);
         new Play("Just a single raindrop",     15.50f, dateTime7);
     }
 
+    //МЕТОД КОЙТО ОПРЕДЕЛЯ КОЕ МЕНЮ ДА СЕ ПОКАЖЕ СЛЕД ИЗВЪРШВАНЕ НА ДАДЕНА ОПЕРАЦИЯ
     private static void menus(){
 
         switch (menuData) {
-            case 0, 24 -> mainMenu();
+            case 0, 20, 30 -> mainMenu();
             case 1 -> addPlay();
-            case 2 -> sellTicket();
-            case 3 -> viewPlays();
+            case 2, 31 -> sellTicket();
+            case 3, 25 -> viewPlays();
             case 4 -> showInfo();
             case 5 -> System.exit(0);
             case 9 -> addRandoms();
@@ -67,12 +69,13 @@ public class Run {
         }
         menus();
     }
-
+    //ПОКАЗВА ГЛАВНОТО МЕНЮ
     private static void toMain(){
         menuData = 0;
         mainMenu();
     }
 
+    //ГЛАВНО МЕНЮ
     private static void mainMenu(){
         Scanner input = new Scanner(System.in);
 
@@ -82,18 +85,20 @@ public class Run {
                 Опции:
                 1. Добавяне  на представление
                 2. Продажба  на билет
-                3. Преглед   на постановките
+                3. Преглед   на представленията
                 4. Добавяне  на билети със случайни стойности (ЗА ТЕСТВАНЕ)
                 5. Извеждане на информация
                 6. ИЗХОД%n
                 Въведете номера на желаната от вас операция:
                 """, dec2);
         byte i = input.nextByte();
+        input.close();
         System.out.printf("%s", dec2);
         menuData = i;
         menus();
     }
 
+    //МЕНЮ ЗА ДОБАВЯНЕ НА ПРЕДСТАВЛЕНИЕ (Валидацията е на ужасно basic level, но ме домързя да я довършвам)
     private static void addPlay(){
         Scanner input = new Scanner(System.in);
         Pattern pPrice = Pattern.compile("^(\\d+\\.\\d{2})|(\\d+)$"); //TO-DO: IMPROVE PATTERNS
@@ -113,12 +118,16 @@ public class Run {
 
         System.out.println("Цена на обикновен билет: ");
         float playPrice = Float.parseFloat(input.next());
+        if (playPrice == 0) toMain();
 
         System.out.println("Дата и час на представлението: ");
         System.out.println("!!!ФОРМАТИРА СЕ ПО СЛЕДНИЯ НАЧИН: dd/MM/yyyy HH:mm");
         String s1 = input.next();
+        if (s1.equals("0")) toMain();
         String s2 = input.next();
+        if (s2.equals("0")) toMain();
         String s = s1 + " " + s2;
+        input.close();
 
         Matcher matcher1 = pPrice.matcher(Float.toString(playPrice));
         Matcher matcher2 = dateAndTime.matcher(s);
@@ -140,6 +149,7 @@ public class Run {
         toMain();
     }
 
+    //МЕНЮ ЗА ПРОДАВАНЕ НА БИЛЕТИ
     private static void sellTicket(){
         Scanner input = new Scanner(System.in);
 
@@ -147,27 +157,34 @@ public class Run {
                 %n%s
                 Продажба на билет!%n
                 Опции:
+                0. Отказ (Връщане към началното меню)
                 1. Продажба на обикновен билет
                 2. Продажба на билет с намаление (за деца и пенсионери)
                 3. Продажба на групов билет (за няколко души)
-                4. Отказ (Връщане към началното меню)%n
+                5. Преглед на представленията%n
                 Въведете номера на желаната от вас операция:
                 """, dec2);
         byte i = input.nextByte();
+        input.close();
         System.out.printf("%s", dec2);
         menuData = (byte) (i + 20);
     }
 
+    //МЕТОДИ ЗА ПРОДАВАНЕ НА БИЛЕТИ
+
+    private static void sellNewTicket(TicketType type){
+
+    }
     private static void sellNormalTicket(){
         Scanner input = new Scanner(System.in);
 
         System.out.printf("""
                 %n%s
-                Продажба на обикновен билет!%n
+                Продажба на %s!%n
                 За отказ и връщане до главното меню въведете 0.
                 Попълнете формуляра!
                 VVV
-                """, dec2);
+                """, dec2, ticket);
 
         System.out.println("Име на клиента:");
         String customerName = input.nextLine();
@@ -175,6 +192,7 @@ public class Run {
 
         System.out.println("Номер на представлението:");
         int playNumber = input.nextInt();
+        input.close();
         if (playNumber == 0) toMain();
         Ticket ticket = new NormalTicket(customerName, playNumber);
 
@@ -204,6 +222,7 @@ public class Run {
 
         System.out.println("Номер на представлението:");
         int playNumber = input.nextInt();
+        input.close();
         if (playNumber == 0) toMain();
         Ticket ticket = new DiscountedTicket(customerName, playNumber);
 
@@ -237,6 +256,7 @@ public class Run {
 
         System.out.println("Номер на представлението:");
         int playNumber = input.nextInt();
+        input.close();
         if (playNumber == 0) toMain();
         Ticket ticket = new GroupTicket(customerName, playNumber, peopleCount);
 
@@ -251,6 +271,20 @@ public class Run {
 
     private static void viewPlays(){
 
+        for (Play i : Play.allPlays) {
+            System.out.println("\n" + dec1);
+            System.out.print(i);
+            System.out.println(dec1);
+        }
+
+        System.out.println("0. Назад");
+        System.out.println("1. Продай билет");
+
+        Scanner input = new Scanner(System.in);
+        menuData = (byte) (input.nextByte() + 30);
+        input.close();
+        System.out.printf("%s", dec2);
+        menus();
     }
 
     private static void addRandoms(){

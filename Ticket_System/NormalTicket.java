@@ -4,7 +4,7 @@ public class NormalTicket extends Ticket {
 
     public NormalTicket(String name, int playNumber) {
         super(name, playNumber);
-        this.ticketPrice   = this.play.getPlayPrice();
-        this.peopleCount = 1;
+        ticketPrice   = play.getPlayPrice();
+        peopleCount = 1;
     }
 }

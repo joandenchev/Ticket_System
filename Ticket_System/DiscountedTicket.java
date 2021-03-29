@@ -4,7 +4,7 @@ public class DiscountedTicket extends Ticket {
 
     public DiscountedTicket(String name, int playNumber) {
         super(name, playNumber);
-        this.ticketPrice = ((float) (0.5 * this.play.getPlayPrice()));
-        this.peopleCount = 1;
+        ticketPrice = ((float) (0.5 * play.getPlayPrice()));
+        peopleCount = 1;
     }
 }
